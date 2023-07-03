@@ -70,7 +70,7 @@ services:
         KAISIR_REDIS_USERNAME: 'user'
         KAISIR_REDIS_PASSWORD: 'password123'
         
-        KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://kaisirpos.my.id:80'
+        KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://kaisirpos.my.id'
    
       
       
