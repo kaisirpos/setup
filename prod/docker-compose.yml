@@ -1,0 +1,124 @@
+version: '3.5'
+
+services:
+
+  mysql:
+    container_name: 'kaisir_mysql'
+    image: mysql:5.7    
+    environment:      
+      MYSQL_DATABASE: 'db_kaisir'              
+      MYSQL_USER: 'user'      
+      MYSQL_PASSWORD: 'password'      
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - 3307:3307
+    expose:
+      - '3307'
+    volumes:    
+      - ./mysql:/docker-entrypoint-initdb.d/
+      - mysql:/var/lib/mysql
+    networks:
+      - network      
+    
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+          
+ 
+         
+  redis:
+    container_name: 'kaisir_redis'
+    image: redis:6.2-alpine                      
+    environment:
+      REDIS_PWD: 'password123'
+     # REDIS_HOSTS: local:redis:6380
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"  
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_PWD"
+    volumes:
+      - redis:/data
+    networks:
+      - network
+      
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+      
+    depends_on:
+      - mysql
+
+    
+  backend:
+    container_name: kaisir_backend
+    image: denitiawan/kaisir-backend:latest-prod
+    environment:           
+     
+        KAISIR_HOST: 'kaisir_backend'
+        KAISIR_PORT: '8181'
+
+        KAISIR_DB_HOST: 'kaisir_mysql'
+        KAISIR_DB_PORT: '3307'
+        KAISIR_DB_USER: 'user'
+        KAISIR_DB_PASSWORD: 'password'
+        KAISIR_DB_NAME: 'db_kaisir'
+
+        KAISIR_REDIS_HOST: 'kaisir_redis'
+        KAISIR_REDIS_PORT: '6379'
+        KAISIR_REDIS_USERNAME: 'user'
+        KAISIR_REDIS_PASSWORD: 'password123'
+        
+        KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://kaisirpos.my.id:80'
+   
+      
+      
+      
+    ports:      
+      - '8181:8181'
+    expose:      
+      - '8181'      
+    networks:
+      - network
+      
+    depends_on:
+      - redis
+      - mysql
+      
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+    
+    
+  web:
+    container_name: kaisir_web
+    image: denitiawan/kaisir-web:latest-prod
+    ports:      
+      - 3001:3000       
+    networks:
+      - network
+    volumes:
+      - web:/app/node_modules      
+    depends_on:
+      - redis
+      - mysql
+      - backend
+      
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+    
+  
+networks:  
+  network:    
+    driver: bridge
+
+volumes:    
+  web:
+  mysql:
+  redis:
+    driver: local  
+    
+     
+ 
