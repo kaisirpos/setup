@@ -21,8 +21,8 @@ services:
         KAISIR_REDIS_USERNAME: 'user'
         KAISIR_REDIS_PASSWORD: 'password123'
         
-        #KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://kaisirpos.my.id'
-        KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://localhost:1991'
+        KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://kaisirpos.my.id'
+        #KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://localhost:1991'
               
       
     ports:      
