@@ -91,25 +91,7 @@ services:
     cpus: 0.5   
     
     
-  web:
-    container_name: kaisir_web
-    image: denitiawan/kaisir-web:latest-prod
-    ports:      
-      - 80:3000           
-    networks:
-      - network
-    volumes:
-      - web:/app/node_modules      
-    depends_on:
-      - redis
-      - mysql
-      - backend
-      
-    mem_limit: 512m
-    mem_reservation: 128M
-    cpus: 0.5   
-    
-    
+     
     
   prometheus:
     image: prom/prometheus:v2.17.1
@@ -131,6 +113,10 @@ services:
     
     networks:      
       - network
+      
+    
+    depends_on:
+      - backend   
       
          
     mem_limit: 256m
@@ -171,8 +157,7 @@ networks:
   network:    
     driver: bridge
 
-volumes:    
-  web:
+volumes:      
   mysql:
   redis:
     driver: local  
