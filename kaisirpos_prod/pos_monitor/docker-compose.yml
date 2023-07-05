@@ -4,7 +4,7 @@ services:
         
   prometheus:
     image: prom/prometheus:v2.17.1
-    container_name: kaisir_prometheus   
+    container_name: pos_kaisir_prometheus   
     volumes:
         - ./prometheus:/etc/prometheus
         #- prometheus_data:/prometheus
@@ -21,8 +21,8 @@ services:
       
     #- 9090:9090
     
-    #networks:      
-    #  - network
+    networks:
+      - pos_env_network  
       
    
       
@@ -32,7 +32,7 @@ services:
   
   grafana:
     image: grafana/grafana:6.7.2
-    container_name: kaisir_grafana
+    container_name: pos_kaisir_grafana
     volumes:
       #- grafana_data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
@@ -50,8 +50,8 @@ services:
       - 1002
     #- 3000
       
-    #networks:
-    #  - network
+    networks:
+      - pos_env_network  
 
 
     depends_on:
@@ -63,7 +63,10 @@ services:
 
               
       
-
+networks:  
+  pos_env_network:    
+    name: pos_env_network
+    driver: bridge
   
     
   

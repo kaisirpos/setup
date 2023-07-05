@@ -1,0 +1,44 @@
+version: '3.5'
+
+services:
+    
+  backend:
+    container_name: pos_kaisir_backend
+    image: denitiawan/kaisir-backend:latest-stag
+    environment:           
+     
+        KAISIR_HOST: 'host.docker.internal'
+        KAISIR_PORT: '8181'
+
+        KAISIR_DB_HOST: 'pos_kaisir_mysql'
+        KAISIR_DB_PORT: '3310'
+        KAISIR_DB_USER: 'user'
+        KAISIR_DB_PASSWORD: 'password'
+        KAISIR_DB_NAME: 'db_kaisir'
+
+        KAISIR_REDIS_HOST: 'pos_kaisir_redis'
+        KAISIR_REDIS_PORT: '6379'
+        KAISIR_REDIS_USERNAME: 'user'
+        KAISIR_REDIS_PASSWORD: 'password123'
+                
+        KAISIR_ALLOWORIGINS_CLIENT_URL: 'http://localhost:1991'
+              
+      
+    ports:      
+      - '8181:8181'
+    expose:      
+      - '8181'      
+    networks:
+      - pos_env_network         
+      
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+    
+    
+     
+        
+networks:  
+  pos_env_network:    
+    name: pos_env_network
+    driver: bridge

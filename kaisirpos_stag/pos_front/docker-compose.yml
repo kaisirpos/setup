@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:
+       
+  web:
+    container_name: pos_kaisir_web
+    image: denitiawan/kaisir-web:latest-stag
+    ports:      
+      - 1991:3000               
+      
+    volumes:
+      - web:/app/node_modules                
+    
+    networks:
+      - pos_env_network  
+             
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+      
+volumes:    
+  web:  
+    
+     
+         
+networks:  
+  pos_env_network:    
+    name: pos_env_network
+    driver: bridge

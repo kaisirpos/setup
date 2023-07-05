@@ -1,0 +1,63 @@
+version: '3.5'
+
+services:
+
+  mysql:
+    container_name: 'pos_kaisir_mysql'
+    image: mysql:5.7    
+    environment:      
+      MYSQL_DATABASE: 'db_kaisir'              
+      MYSQL_USER: 'user'      
+      MYSQL_PASSWORD: 'password'      
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_TCP_PORT: 3310
+    ports:
+      - 3310:3310
+    expose:
+      - '3310'
+    volumes:    
+      - ./mysql:/docker-entrypoint-initdb.d/
+      - mysql:/var/lib/mysql
+    networks:
+      - network      
+    
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+          
+         
+  redis:
+    container_name: 'pos_kaisir_redis'
+    image: redis:6.2-alpine                      
+    environment:
+      REDIS_PWD: 'password123'
+     # REDIS_HOSTS: local:redis:6380
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"  
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_PWD"
+    volumes:
+      - redis:/data
+    networks:
+      - network
+      
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+      
+    depends_on:
+      - mysql
+      
+       
+networks:  
+  network:    
+    driver: bridge
+
+volumes:      
+  mysql:
+  redis:
+    driver: local  
+    
+     
+ 
