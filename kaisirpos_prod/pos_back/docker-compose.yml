@@ -7,7 +7,7 @@ services:
     image: denitiawan/kaisir-backend:latest-prod
     environment:           
      
-        KAISIR_HOST: 'host.docker.internal'
+        KAISIR_HOST: 'pos_kaisir_backend'
         KAISIR_PORT: '8181'
 
         KAISIR_DB_HOST: 'pos_kaisir_mysql'
