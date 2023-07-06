@@ -6,7 +6,7 @@ services:
     container_name: pos_kaisir_web
     image: denitiawan/kaisir-web:latest-prod
     ports:      
-      - 1991:3000               
+      - 80:3000               
       
     volumes:
       - web:/app/node_modules                

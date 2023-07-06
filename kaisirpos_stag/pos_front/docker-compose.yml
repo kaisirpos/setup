@@ -17,6 +17,25 @@ services:
     mem_limit: 512m
     mem_reservation: 128M
     cpus: 0.5   
+    
+    
+    
+  web2:
+    container_name: pos_kaisir_web_2
+    image: denitiawan/kaisir-web:latest-stag
+    ports:      
+      - 2002:3000               
+      
+    volumes:
+      - web:/app/node_modules                
+    
+    networks:
+      - pos_env_network  
+             
+    mem_limit: 512m
+    mem_reservation: 128M
+    cpus: 0.5   
+    
       
 volumes:    
   web:  
