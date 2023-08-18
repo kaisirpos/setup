@@ -1,2 +1,1 @@
-# setup
-setup
+All setup files is not available
